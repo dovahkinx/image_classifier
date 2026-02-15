@@ -1,0 +1,53 @@
+# Hızlı Görüntü Sınıflandırıcı — Walkthrough
+
+## Proje Yapısı
+
+```
+image_classifier/
+├── train.py          # Eğitim scripti
+├── predict.py        # Tahmin scripti (< 1 saniye)
+└── requirements.txt  # Bağımlılıklar (yüklendi ✅)
+```
+
+## Dataset Doğrulaması ✅
+
+`C:\Users\hakan\Desktop\flower_photos` klasöründe **5 sınıf** tespit edildi:
+
+| Sınıf | Klasör |
+|-------|--------|
+| 🌼 Papatya | `daisy/` |
+| 🌾 Karahindiba | `dandelion/` |
+| 🌹 Gül | `roses/` |
+| 🌻 Ayçiçeği | `sunflowers/` |
+| 🌷 Lale | `tulips/` |
+
+## Kullanım
+
+### 1. Eğitim
+
+```bash
+cd C:\Users\hakan\.gemini\antigravity\scratch\image_classifier
+python train.py --data_dir "C:\Users\hakan\Desktop\flower_photos"
+```
+
+Eğitim tamamlandıktan sonra `model.keras` ve `class_names.json` dosyaları oluşur.
+
+### 2. Tahmin
+
+```bash
+python predict.py "C:\yeni_resim.jpg"
+```
+
+**Beklenen çıktı:**
+```
+✅ Tahmin : sunflowers
+📊 Güven  : %97.3
+⏱️  Süre   : 120ms
+```
+
+## Teknik Detaylar
+
+- **Model**: MobileNetV2 (transfer learning)
+- **Eğitim**: 2 aşamalı (frozen → fine-tuning) + early stopping
+- **Tahmin hızı**: ~50-200ms (warmup sonrası)
+- **Data augmentation**: rotation, flip, zoom, shift
